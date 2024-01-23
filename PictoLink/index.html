@@ -1,1 +1,174 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Youtube Video Player</title>
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #111; /* Change to black background */
+            margin: 20px;
+        }
+
+        .videos {
+            background: linear-gradient(45deg, #1e1e1e, #111); /* Black gradient background */
+            border: 1px solid #333; /* Dark border */
+            border-radius: 10px; /* Rounded corners for a professional look */
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Stronger box shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth scale and shadow effect */
+            padding: 2px; /* Added 2px padding */
+            position: relative;
+        }
+
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            z-index: 1;
+            border-radius: 10px; /* Rounded corners for the overlay */
+        }
+
+        .loading-spinner {
+            border: 4px solid #fff;
+            border-top: 4px solid #3498db; /* Blue color for the spinner */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .videos iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            visibility: hidden;
+            border-radius: 8px; /* Rounded corners for the video */
+        }
+
+        .videos.loaded iframe {
+            visibility: visible;
+        }
+
+        .videos h1 {
+            padding: 15px;
+            font-size: 22px; /* Slightly increased font size for improved readability */
+            text-align: center;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        /* Gradient overlay on hover */
+        .videos:hover {
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5); /* Slightly stronger shadow on hover */
+        }
+
+        .videos::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.3), transparent); /* Gradient overlay */
+            pointer-events: none; /* Allow clicks to pass through the overlay */
+            z-index: 2;
+            border-radius: 10px; /* Rounded corners for the overlay */
+            opacity: 0; /* Initially invisible */
+            transition: opacity 0.3s ease;
+        }
+
+        .videos:hover::before {
+            opacity: 1; /* Make the overlay visible on hover */
+        }
+
+        /* Hover effect */
+        .videos:hover {
+            transform: scale(1.03); /* Slightly scale up on hover for a smooth effect */
+        }
+
+        /* Responsive Layout */
+        @media (min-width: 768px) {
+            .videos {
+                width: 48%;
+                float: left;
+                margin-right: 2%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .videos {
+                width: 31.33%;
+                margin-right: 2%;
+            }
+        }
+
+        /* Center the videos */
+        @media (max-width: 767px) {
+            .videos {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="videos">
+        <div class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
+        <iframe src="https://www.youtube.com/embed/I2zQcVgZXgQ?rel=0&enablejsapi=1" allowfullscreen class="video-iframe"></iframe>
+        <h1>Youtube First Video</h1>
+    </div>
+    <div class="videos">
+        <div class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
+        <iframe src="https://www.youtube.com/embed/I2zQcVgZXgQ?rel=0&enablejsapi=1" allowfullscreen class="video-iframe"></iframe>
+        <h1>Youtube Second Video</h1>
+    </div>
+    <div class="videos">
+        <div class="loading-overlay">
+            <div class="loading-spinner"></div>
+        </div>
+        <iframe src="https://www.youtube.com/embed/I2zQcVgZXgQ?rel=0&enablejsapi=1" allowfullscreen class="video-iframe"></iframe>
+        <h1>Youtube Third Video</h1>
+    </div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        function onYouTubeIframeAPIReady() {
+            var players = document.querySelectorAll('.video-iframe');
+
+            players.forEach(function(player) {
+                var videoWrapper = player.closest('.videos');
+                var loadingOverlay = videoWrapper.querySelector('.loading-overlay');
+
+                setTimeout(function() {
+                    loadingOverlay.style.display = 'none';
+                    videoWrapper.classList.add('loaded');
+                }, 5000); // 5000 milliseconds (5 seconds) delay
+            });
+        }
+    </script>
+</body>
+</html>
